@@ -30,6 +30,8 @@ set ruler           " 显示标尺, 打开状态栏标尺
 
 set cursorline      " 突出显示当前行
 
+set statusline=%F%m%r%h%w\ [FMT=%{&ff}]\ [TYPE=%Y]\ [%l,%v][%p%%]\ %{strftime(\"%Y-%m-%d\ -\ %H:%M\")}   "状态行显示的内容  
+
 set showcmd         " 输入的命令显示出来，看的清楚些  
 
 "set cmdheight=1     " 命令行（在状态行下）的高度，默认为1，这里是2
@@ -48,10 +50,7 @@ set whichwrap+=<,>,h,l
 
 set scrolloff=3
 
-set novisualbell    " 不要闪烁(不明白)  
-
-set statusline=%F%m%r%h%w\ [FMT=%{&ff}]\ [TYPE=%Y]\ [%l,%v][%p%%]\ %{strftime(\"%Y-%m-%d\ -\ %H:%M\")}   "状态行显示的内容  
-
+set novisualbell    " 不要闪烁(不明白)
 
 "set background=dark "背景使用黑色 
 
