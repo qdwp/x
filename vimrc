@@ -112,8 +112,10 @@ Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle', 'for': ['text', 'm
 Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug'] }
 Plug 'dkarter/bullets.vim'
 
-" For programming
+" NerdTree
+Plug 'preservim/nerdtree'
 
+" For programming
 Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*' }
 
 
@@ -189,4 +191,15 @@ func! CompileRunGcc()
 	endif
 
 endfunc
+
+
+" ===
+" === nerdtree
+" ===
+map <C-t> :NERDTreeToggle<CR>
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+let NERDTreeShowHidden=1
+
+
 
