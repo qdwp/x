@@ -32,8 +32,19 @@ set backspace=indent,eol,start
 set nobackup
 set noswapfile
 
+set tabstop=4			" ts
+set softtabstop=4		" sts
+set shiftwidth=4		" sw
+set expandtab			" st
+set autoindent
+
 if has("autocmd")
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+
+    autocmd Filetype ruby setlocal ts=2 sts=2 sw=2 et
+    autocmd Filetype javascript setlocal ts=2 sts=2 sw=2 et
+    autocmd Filetype typescript setlocal ts=2 sts=2 sw=2 et
+
 endif
 
 
@@ -49,6 +60,7 @@ noremap - Nzz
 set laststatus=2                " Show status line always
 set encoding=utf-8              " Set default encoding to UTF-8
 set autoread                    " Automatically read changed files
+set autoindent
 
 set cursorline
 set wildmenu
@@ -60,6 +72,9 @@ map R :source $MYVIMRC<CR>
 noremap W :w<CR>
 noremap Q :q<CR>
 
+" paste
+set clipboard=unnamed
+set pastetoggle=<LEADER>p
 
 " Force to write file
 cnoremap w!! w !sudo tee % > /dev/null
@@ -156,25 +171,25 @@ let g:instant_markdown_mathjax = 1
 let g:instant_markdown_autoscroll = 1
 let g:instant_markdown_browser = "chromium --new-window"
 
-
-"autocmd Filetype markdown map <leader>w yiWi[<esc>Ea](<esc>pa)
-autocmd Filetype markdown inoremap <buffer> ,f <Esc>/<++><CR>:nohlsearch<CR>"_c4l
-autocmd Filetype markdown inoremap <buffer> ,w <Esc>/<++><CR>:nohlsearch<CR>"_c5l<CR>
-autocmd Filetype markdown inoremap <buffer> ,b **** <++><Esc>F*hi
-" autocmd Filetype markdown inoremap <buffer> ,n ---<Enter><Enter>
-" autocmd Filetype markdown inoremap <buffer> ,s ~~~~ <++><Esc>F~hi
-autocmd Filetype markdown inoremap <buffer> ,i ** <++><Esc>F*i
-autocmd Filetype markdown inoremap <buffer> ,d `` <++><Esc>F`i
-autocmd Filetype markdown inoremap <buffer> ,c ```<Enter><++><Enter>```<Enter><Enter><++><Esc>4kA
-autocmd Filetype markdown inoremap <buffer> ,m - [ ]
-autocmd Filetype markdown inoremap <buffer> ,p ![](<++>) <++><Esc>F[a
-autocmd Filetype markdown inoremap <buffer> ,a [](<++>) <++><Esc>F[a
-autocmd Filetype markdown inoremap <buffer> ,1 #<Space><Enter><++><Esc>kA
-autocmd Filetype markdown inoremap <buffer> ,2 ##<Space><Enter><++><Esc>kA
-autocmd Filetype markdown inoremap <buffer> ,3 ###<Space><Enter><++><Esc>kA
-autocmd Filetype markdown inoremap <buffer> ,4 ####<Space><Enter><++><Esc>kA
-autocmd Filetype markdown inoremap <buffer> ,l --------<Enter>
-
+if has("autocmd")
+	"autocmd Filetype markdown map <leader>w yiWi[<esc>Ea](<esc>pa)
+	autocmd Filetype markdown inoremap <buffer> ,f <Esc>/<++><CR>:nohlsearch<CR>"_c4l
+	autocmd Filetype markdown inoremap <buffer> ,w <Esc>/<++><CR>:nohlsearch<CR>"_c5l<CR>
+	autocmd Filetype markdown inoremap <buffer> ,b **** <++><Esc>F*hi
+	" autocmd Filetype markdown inoremap <buffer> ,n ---<Enter><Enter>
+	" autocmd Filetype markdown inoremap <buffer> ,s ~~~~ <++><Esc>F~hi
+	autocmd Filetype markdown inoremap <buffer> ,i ** <++><Esc>F*i
+	autocmd Filetype markdown inoremap <buffer> ,d `` <++><Esc>F`i
+	autocmd Filetype markdown inoremap <buffer> ,c ```<Enter><++><Enter>```<Enter><Enter><++><Esc>4kA
+	autocmd Filetype markdown inoremap <buffer> ,m - [ ]
+	autocmd Filetype markdown inoremap <buffer> ,p ![](<++>) <++><Esc>F[a
+	autocmd Filetype markdown inoremap <buffer> ,a [](<++>) <++><Esc>F[a
+	autocmd Filetype markdown inoremap <buffer> ,1 #<Space><Enter><++><Esc>kA
+	autocmd Filetype markdown inoremap <buffer> ,2 ##<Space><Enter><++><Esc>kA
+	autocmd Filetype markdown inoremap <buffer> ,3 ###<Space><Enter><++><Esc>kA
+	autocmd Filetype markdown inoremap <buffer> ,4 ####<Space><Enter><++><Esc>kA
+	autocmd Filetype markdown inoremap <buffer> ,l --------<Enter>
+endif
 
 " ===
 " === vim-table-mode
