@@ -28,6 +28,7 @@ set tw=0
 set list
 set listchars=tab:⇒\ ,trail:␣
 set autochdir
+" set backspace=2
 set backspace=indent,eol,start
 set nobackup
 set noswapfile
@@ -44,59 +45,11 @@ if has("autocmd")
     autocmd Filetype ruby setlocal ts=2 sts=2 sw=2 et
     autocmd Filetype javascript setlocal ts=2 sts=2 sw=2 et
     autocmd Filetype typescript setlocal ts=2 sts=2 sw=2 et
+    autocmd Filetype go setlocal ts=4 sts=4 sw=4
+	
+    autocmd FileType json,markdown let g:indentLine_conceallevel=0
 
 endif
-
-" autocomplete
-inoremap ( ()<LEFT>
-inoremap [ []<LEFT>
-inoremap { {}<LEFT>
-inoremap " ""<LEFT>
-inoremap ' ''<LEFT>
-inoremap < <><LEFT>
-
-function! RemovePairs()
-    let s:line = getline(".")
-    let s:previous_char = s:line[col(".")-1]
-
-    if index(["(","[","{"],s:previous_char) != -1
-        let l:original_pos = getpos(".")
-        execute "normal %"
-        let l:new_pos = getpos(".")
-        " only right (
-        if l:original_pos == l:new_pos
-            execute "normal! a\<BS>"
-            return
-        end
-
-        let l:line2 = getline(".")
-        if len(l:line2) == col(".")
-            execute "normal! v%xa"
-        else
-            execute "normal! v%xi"
-        end
-    else
-        execute "normal! a\<BS>"
-    end
-endfunction
-
-function! RemoveNextDoubleChar(char)
-    let l:line = getline(".")
-    let l:next_char = l:line[col(".")]
-
-    if a:char == l:next_char
-        execute "normal! l"
-    else
-        execute "normal! i" . a:char . ""
-    end
-endfunction
-
-inoremap <BS> <ESC>:call RemovePairs()<CR>a
-inoremap ) <ESC>:call RemoveNextDoubleChar(')')<CR>a
-inoremap ] <ESC>:call RemoveNextDoubleChar(']')<CR>a
-inoremap } <ESC>:call RemoveNextDoubleChar('}')<CR>a
-inoremap > <ESC>:call RemoveNextDoubleChar('>')<CR>a
-
 
 " set hlsearch                    " High light search
 " exec "nohlsearch"
@@ -132,14 +85,13 @@ cnoremap w!! w !sudo tee % > /dev/null
 nnoremap Y y$
 nnoremap D d$
 
-map J 10j
-map K 10k
-
 map sl :set splitright<CR>:vsplit<CR>
 map sh :set nosplitright<CR>:vsplit<CR>
 map sk :set nosplitbelow<CR>:split<CR>
 map sj :set splitbelow<CR>:split<CR>
 
+map K 10k
+map J 10j
 
 map <leader>h <c-w>h
 map <leader>l <c-w>l
@@ -153,9 +105,10 @@ map <leader><right> :vertical resize+5<CR>
 
 nnoremap <C-z> u
 inoremap <C-z> <Esc>ua
+nnoremap U <C-r>
 
-:nmap <c-s> :w<CR>
-:imap <c-s> <Esc>:w<CR>a
+nnoremap <c-s> :w<CR>
+inoremap <c-s> <Esc>:w<CR>a
 
 "             +---------+
 "             | Plugins |
@@ -166,6 +119,11 @@ inoremap <C-z> <Esc>ua
 "                            ||----w |
 "                            ||     ||
 
+" Install software to support vim plugins.
+"
+" sudo pacman -S chromium the_silver_searcher nodejs npm
+" sudo npm -g install instant-markdown-d
+
 " Install Vim-Plug
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
@@ -174,25 +132,34 @@ inoremap <C-z> <Esc>ua
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
+" Init
 Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'connorholyday/vim-snazzy'
 Plug 'Yggdroot/indentLine'
 
+" Search & Place & Edit
 Plug 'easymotion/vim-easymotion'
-
+Plug 'preservim/nerdtree'
+Plug 'tpope/vim-surround'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'                                   " Ag need install  `the_silver_searcher`
+Plug 'brooth/far.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'preservim/nerdcommenter'
+Plug 'xuyuanp/nerdtree-git-plugin'
 
 " Markdown
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle', 'for': ['text', 'markdown', 'vim-plug'] }
 Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug'] }
 Plug 'dkarter/bullets.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 
-" NerdTree
-Plug 'preservim/nerdtree'
-
-" For programming
+" Programming
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*' }
 
 
@@ -200,10 +167,11 @@ Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*' }
 call plug#end()
 
 " Set airline theme
-" let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
+let g:airline_powerline_fonts = 1
 
 
 " Set colorscheme
@@ -215,14 +183,17 @@ set termguicolors                    " Enable GUI colors for the terminal to get
 let g:SnazzyTransparent = 1
 colorscheme snazzy
 
+" indentLine
+" let g:indentLine_char = 'c'
+let g:vim_json_syntax_conceal = 0
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+
 " Find by 2 characters
 nmap ss <Plug>(easymotion-s2)
 
-" ===
-" === vim-instant-markdown
-" ===
+" vim-instant-markdown
 nnoremap <LEADER>md <Esc>:InstantMarkdownPreview<CR>
-nnoremap <LEADER>mdd <Esc>:InstantMarkdownStop<CR>
+nnoremap <LEADER>mds <Esc>:InstantMarkdownStop<CR>
 
 let g:instant_markdown_slow = 0
 let g:instant_markdown_autostart = 0
@@ -235,8 +206,8 @@ let g:instant_markdown_browser = "chromium --new-window"
 
 if has("autocmd")
 	"autocmd Filetype markdown map <leader>w yiWi[<esc>Ea](<esc>pa)
-	autocmd Filetype markdown inoremap <buffer> ,f <Esc>/<++><CR>:nohlsearch<CR>"_c4l
-	autocmd Filetype markdown inoremap <buffer> ,w <Esc>/<++><CR>:nohlsearch<CR>"_c5l<CR>
+	autocmd Filetype markdown inoremap <buffer> ,f <Esc>/<++><cr>:nohlsearch<cr>"_c4l
+	autocmd filetype markdown inoremap <buffer> ,w <esc>/<++><CR>:nohlsearch<CR>"_c5l<CR>
 	autocmd Filetype markdown inoremap <buffer> ,b **** <++><Esc>F*hi
 	" autocmd Filetype markdown inoremap <buffer> ,n ---<Enter><Enter>
 	" autocmd Filetype markdown inoremap <buffer> ,s ~~~~ <++><Esc>F~hi
@@ -246,37 +217,120 @@ if has("autocmd")
 	autocmd Filetype markdown inoremap <buffer> ,m - [ ]
 	autocmd Filetype markdown inoremap <buffer> ,p ![](<++>) <++><Esc>F[a
 	autocmd Filetype markdown inoremap <buffer> ,a [](<++>) <++><Esc>F[a
-	autocmd Filetype markdown inoremap <buffer> ,1 #<Space><Enter><++><Esc>kA
-	autocmd Filetype markdown inoremap <buffer> ,2 ##<Space><Enter><++><Esc>kA
-	autocmd Filetype markdown inoremap <buffer> ,3 ###<Space><Enter><++><Esc>kA
-	autocmd Filetype markdown inoremap <buffer> ,4 ####<Space><Enter><++><Esc>kA
-	autocmd Filetype markdown inoremap <buffer> ,l --------<Enter>
+	autocmd Filetype markdown inoremap <buffer> ,1 #<Space><Enter><Enter><++><Esc>kkA
+	autocmd Filetype markdown inoremap <buffer> ,2 ##<Space><Enter><Enter><++><Esc>kkA
+	autocmd Filetype markdown inoremap <buffer> ,3 ###<Space><Enter><Enter><++><Esc>kkA
+	autocmd Filetype markdown inoremap <buffer> ,4 ####<Space><Enter><Enter><++><Esc>kkA
+	autocmd Filetype markdown inoremap <buffer> ,l --------<Enter><Enter>
 endif
 
-" ===
-" === vim-table-mode
-" ===
+" vim-table-mode
 noremap <LEADER>tm :TableModeToggle<CR>
 "let g:table_mode_disable_mappings = 1
 let g:table_mode_cell_text_object_i_map = 'k<Bar>'
 
-noremap r :call CompileRunGcc()<CR>
+noremap <LEADER>\ :call CompileRunGcc()<CR>
 func! CompileRunGcc()
 	exec "w"
 	if &filetype == 'markdown'
 		exec "InstantMarkdownPreview"
+	elseif &filetype == 'python'
+        exec "!python %"
 	endif
 
 endfunc
 
+" Bullets.vim
+let g:bullets_enabled_file_types = [
+    \ 'markdown',
+    \ 'text',
+    \ 'gitcommit',
+    \ 'scratch'
+    \ ]
+let g:bullets_set_mappings = 0                      " default = 1
+let g:bullets_delete_last_bullet_if_empty = 1       " default = 1
+let g:bullets_pad_right = 0                         " default = 1
 
-" ===
-" === nerdtree
-" ===
-map <C-t> :NERDTreeToggle<CR>
+
+" nerdtree
+inoremap <C-t> <Esc>:NERDTreeToggle<CR>
+nnoremap <C-t> <Esc>:NERDTreeToggle<CR>
+nnoremap tt :NERDTreeToggle<CR>
+nnoremap <LEADER>f :NERDTreeFind<CR>
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
+let g:NERDTreeAutoDeleteBuffer = 1
 let NERDTreeShowHidden=1
+let NERDTreeIgnore = [
+    \ '\.code', '\.idea', '\.DS_Store',
+    \ '\.git$', '\.gitignore',
+    \ '\.pyc$', '\.pyo$', '__pycache__',
+    \ ]
 
+" nerdcommenter
+let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'left'
+
+" nerdtree-git-plugin
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+                \ 'Modified'  :'✹',
+                \ 'Staged'    :'✚',
+                \ 'Untracked' :'✭',
+                \ 'Renamed'   :'➜',
+                \ 'Unmerged'  :'═',
+                \ 'Deleted'   :'✖',
+                \ 'Dirty'     :'✗',
+                \ 'Ignored'   :'☒',
+                \ 'Clean'     :'✔︎',
+                \ 'Unknown'   :'?',
+                \ }
+let g:NERDTreeGitStatusUseNerdFonts = 1 " you should install nerdfonts by yourself. default: 0
+
+
+" vim-gitgutter
+let g:gitgutter_map_keys = 0
+let g:gitgutter_max_signs = -1
+
+" vim-go
+let g:go_doc_keywordprg_enabled = 0
+
+
+" coc.nvim
+let g:coc_global_extensions = [
+    \ 'coc-json',
+    \ 'coc-vimlsp',
+    \ 'coc-tsserver',
+    \ ]
+
+set hidden
+set updatetime=100
+set shortmess+=c
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" otherlugin beforeutting this into your config.
+inoremap <silent><expr> <TAB>
+      \umvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+nnoremap <LEADER>h :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocActionAsync('doHover')
+  endif
+endfunction
+
+" popup
+nmap <Leader>z <Plug>(coc-translator-p)
+vmap <Leader>z <Plug>(coc-translator-pv)
 
 
