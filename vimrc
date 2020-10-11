@@ -192,8 +192,8 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 nmap ss <Plug>(easymotion-s2)
 
 " vim-instant-markdown
-nnoremap <LEADER>md <Esc>:InstantMarkdownPreview<CR>
-nnoremap <LEADER>mds <Esc>:InstantMarkdownStop<CR>
+nnoremap \ <Esc>:InstantMarkdownPreview<CR>
+nnoremap <LEADER>] <Esc>:InstantMarkdownStop<CR>
 
 let g:instant_markdown_slow = 0
 let g:instant_markdown_autostart = 0
@@ -320,7 +320,7 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-nnoremap <LEADER>h :call <SID>show_documentation()<CR>
+nnoremap <LEADER>d :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
