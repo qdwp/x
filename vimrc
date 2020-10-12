@@ -110,6 +110,8 @@ nnoremap U <C-r>
 nnoremap <c-s> :w<CR>
 inoremap <c-s> <Esc>:w<CR>a
 
+nnoremap <LEADER>L :bufdo e<CR>
+
 "             +---------+
 "             | Plugins |
 "             +---------+
@@ -296,10 +298,16 @@ let g:go_doc_keywordprg_enabled = 0
 
 
 " coc.nvim
+" Initialize install.
+" :CocInstall marketplace
 let g:coc_global_extensions = [
     \ 'coc-json',
     \ 'coc-vimlsp',
+    \ 'coc-go',
     \ 'coc-tsserver',
+    \ 'coc-jedi',
+    \ 'coc-python',
+    \ 'coc-translator',
     \ ]
 
 set hidden
