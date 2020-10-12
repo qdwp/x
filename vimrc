@@ -123,8 +123,12 @@ nnoremap <LEADER>L :bufdo e<CR>
 
 " Install software to support vim plugins.
 "
+" For Archlinux
 " sudo pacman -S chromium the_silver_searcher nodejs npm
 " sudo npm -g install instant-markdown-d
+" 
+" For Ubuntu
+" sudo apt-get install silversearcher-ag
 
 " Install Vim-Plug
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
