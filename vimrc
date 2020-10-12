@@ -57,9 +57,6 @@ set incsearch
 set ignorecase
 set smartcase
 
-noremap = nzz
-noremap - Nzz
-
 set laststatus=2                " Show status line always
 set encoding=utf-8              " Set default encoding to UTF-8
 set autoread                    " Automatically read changed files
@@ -85,23 +82,25 @@ cnoremap w!! w !sudo tee % > /dev/null
 nnoremap Y y$
 nnoremap D d$
 
-map sl :set splitright<CR>:vsplit<CR>
-map sh :set nosplitright<CR>:vsplit<CR>
-map sk :set nosplitbelow<CR>:split<CR>
-map sj :set splitbelow<CR>:split<CR>
+nnoremap sl :set splitright<CR>:vsplit<CR>
+nnoremap sh :set nosplitright<CR>:vsplit<CR>
+nnoremap sk :set nosplitbelow<CR>:split<CR>
+nnoremap sj :set splitbelow<CR>:split<CR>
 
-map K 10k
-map J 10j
+nnoremap K 10k
+nnoremap J 10j
 
-map <leader>h <c-w>h
-map <leader>l <c-w>l
-map <leader>j <c-w>j
-map <leader>k <c-w>k
+nnoremap <leader>w <c-w>w
+nnoremap <leader>h <c-w>h
+nnoremap <leader>l <c-w>l
+nnoremap <leader>j <c-w>j
+nnoremap <leader>k <c-w>k
 
-map <leader><up> :res +5<CR>
-map <leader><down> :res -5<CR>
-map <leader><left> :vertical resize-5<CR>
-map <leader><right> :vertical resize+5<CR>
+nnoremap <leader><up> :res +5<CR>
+nnoremap <leader><down> :res -5<CR>
+nnoremap <leader><left> :vertical resize-5<CR>
+nnoremap <leader><right> :vertical resize+5<CR>
+
 
 nnoremap <C-z> u
 inoremap <C-z> <Esc>ua
@@ -173,12 +172,32 @@ Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*' }
 call plug#end()
 
 " Set airline theme
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
-let g:airline_powerline_fonts = 1
+nnoremap <LEADER>0 :tabnew<CR>
+nnoremap <LEADER>1 :tabnext 1<CR>
+nnoremap <LEADER>2 :tabnext 2<CR>
+nnoremap <LEADER>3 :tabnext 3<CR>
+nnoremap <LEADER>4 :tabnext 4<CR>
+nnoremap <LEADER>5 :tabnext 5<CR>
+nnoremap <LEADER>6 :tabnext 6<CR>
+nnoremap <LEADER>7 :tabnext 7<CR>
+nnoremap <LEADER>8 :tabnext 8<CR>
+nnoremap <LEADER>9 :tabnext 9<CR>
+nnoremap - :tabNext<CR>
+nnoremap = :tabnext<CR>
 
+" plugin mapping o   open selected files or directories or bookmarks
+" plugin mapping go  open selected ..., but leave cursor in the NERDTree
+" plugin mapping t   open selected node/bookmark in a new tab
+" plugin mapping T   open selected ..., but leave cursor in the NERDTree
+" plugin mapping i   open selected file in a split window
+" plugin mapping gi  open selected file in a split window, but leave cursor in the NERDTree
+" plugin mapping s   open selected file in a vsplit window
+" plugin mapping gs  open selected file in a vsplit windo, but leave cursor in the NERDTree
 
 " Set colorscheme
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum" " set foreground color
@@ -198,8 +217,8 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 nmap ss <Plug>(easymotion-s2)
 
 " vim-instant-markdown
-nnoremap \ <Esc>:InstantMarkdownPreview<CR>
-nnoremap <LEADER>] <Esc>:InstantMarkdownStop<CR>
+nnoremap <LEADER>( <Esc>:InstantMarkdownPreview<CR>
+nnoremap <LEADER>) <Esc>:InstantMarkdownStop<CR>
 
 let g:instant_markdown_slow = 0
 let g:instant_markdown_autostart = 0
