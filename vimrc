@@ -102,8 +102,8 @@ nnoremap <leader><left> :vertical resize-5<CR>
 nnoremap <leader><right> :vertical resize+5<CR>
 
 
-nnoremap <C-z> u
-inoremap <C-z> <Esc>ua
+" nnoremap <C-z> u
+" inoremap <C-z> <Esc>ua
 nnoremap U <C-r>
 
 nnoremap <c-s> :w<CR>
