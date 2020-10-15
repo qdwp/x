@@ -18,6 +18,8 @@ filetype plugin on
 filetype plugin indent on
 
 set mouse=a
+" if vim in st(suckless simple terminal) cannot scrolldown with mouse
+set ttymouse=sgr
 
 syntax on
 set number
