@@ -30,8 +30,6 @@ set tw=0
 set list
 set listchars=tab:⇒\ ,trail:␣
 set autochdir
-" set backspace=2
-set backspace=indent,eol,start
 set nobackup
 set noswapfile
 
@@ -78,11 +76,15 @@ noremap Q :q<CR>
 set clipboard=unnamed
 set pastetoggle=<LEADER>p
 
+vnoremap Y "+y
+nnoremap <LEADER>p "+p
+
+" set backspace=2
+set backspace=indent,eol,start
+nnoremap D d0i<BS><Esc>l
+
 " Force to write file
 cnoremap w!! w !sudo tee % > /dev/null
-
-nnoremap Y y$
-nnoremap D d$
 
 nnoremap sl :set splitright<CR>:vsplit<CR>
 nnoremap sh :set nosplitright<CR>:vsplit<CR>
@@ -164,6 +166,10 @@ Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug'] 
 Plug 'dkarter/bullets.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+
+" rsStructureText
+Plug 'vim-scripts/Unicode-RST-Tables'
+
 
 " Programming
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -274,9 +280,11 @@ let g:bullets_enabled_file_types = [
     \ 'gitcommit',
     \ 'scratch'
     \ ]
-let g:bullets_set_mappings = 0                      " default = 1
-let g:bullets_delete_last_bullet_if_empty = 1       " default = 1
-let g:bullets_pad_right = 0                         " default = 1
+" let g:bullets_set_mappings = 0                      " default = 1
+" let g:bullets_delete_last_bullet_if_empty = 1       " default = 1
+" let g:bullets_pad_right = 0                         " default = 1
+let g:bullets_line_spacing = 1 " default = 1
+"
 
 
 " nerdtree
@@ -330,6 +338,7 @@ let g:coc_global_extensions = [
     \ 'coc-vimlsp',
     \ 'coc-go',
     \ 'coc-tsserver',
+    \ 'coc-snippets',
     \ 'coc-jedi',
     \ 'coc-python',
     \ 'coc-translator',
@@ -366,8 +375,9 @@ endfunction
 nmap <Leader>z <Plug>(coc-translator-p)
 vmap <Leader>z <Plug>(coc-translator-pv)
 
-" GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+
