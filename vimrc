@@ -175,6 +175,8 @@ Plug 'vim-scripts/Unicode-RST-Tables'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*' }
 
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 
 " Initialize plugin system
 call plug#end()
@@ -379,5 +381,8 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+" set filetypes as typescript.tsx
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
 
 
