@@ -373,7 +373,7 @@ function! s:show_documentation()
   endif
 endfunction
 
-" popup
+
 nmap <Leader>z <Plug>(coc-translator-p)
 vmap <Leader>z <Plug>(coc-translator-pv)
 
