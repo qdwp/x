@@ -129,7 +129,7 @@ nnoremap <LEADER>L :bufdo e<CR>
 " For Archlinux
 " sudo pacman -S chromium the_silver_searcher nodejs npm
 " sudo npm -g install instant-markdown-d
-" 
+"
 " For Ubuntu
 " sudo apt-get install silversearcher-ag
 
@@ -147,6 +147,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'connorholyday/vim-snazzy'
 Plug 'Yggdroot/indentLine'
+Plug 'voldikss/vim-floaterm'
 
 " Search & Place & Edit
 Plug 'easymotion/vim-easymotion'
@@ -222,6 +223,11 @@ colorscheme snazzy
 " let g:indentLine_char = 'c'
 let g:vim_json_syntax_conceal = 0
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+
+
+" vim-float-terminal
+let g:floaterm_autoclose = 1
+
 
 " Find by 2 characters
 nmap ss <Plug>(easymotion-s2)
