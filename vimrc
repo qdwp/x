@@ -36,7 +36,7 @@ set noswapfile
 set tabstop=4			" ts
 set softtabstop=4		" sts
 set shiftwidth=4		" sw
-set expandtab			" st
+set expandtab			" et
 set autoindent
 
 if has("autocmd")
@@ -45,8 +45,8 @@ if has("autocmd")
     autocmd Filetype ruby setlocal ts=2 sts=2 sw=2 et
     autocmd Filetype javascript setlocal ts=2 sts=2 sw=2 et
     autocmd Filetype typescript setlocal ts=2 sts=2 sw=2 et
-    autocmd Filetype go setlocal ts=4 sts=4 sw=4
-	
+    autocmd Filetype go setlocal ts=4 sts=4 sw=4 noexpandtab
+
     autocmd FileType json,markdown let g:indentLine_conceallevel=0
 
 endif
@@ -173,7 +173,7 @@ Plug 'vim-scripts/Unicode-RST-Tables'
 
 " Programming
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*' }
+" Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*' }
 
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
@@ -229,6 +229,10 @@ nmap ss <Plug>(easymotion-s2)
 " vim-instant-markdown
 nnoremap <LEADER>( <Esc>:InstantMarkdownPreview<CR>
 nnoremap <LEADER>) <Esc>:InstantMarkdownStop<CR>
+
+" rsStructureText Table
+" <leader><leader>c     :create table
+" <leader><leader>f     :format table
 
 let g:instant_markdown_slow = 0
 let g:instant_markdown_autostart = 0
