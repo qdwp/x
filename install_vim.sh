@@ -27,7 +27,7 @@ stty -ixon
 ' >> ~/.bashrc
 
 echo '
-# Reset ctrl + s AND ctrl + q
+" Reset ctrl + s AND ctrl + q
 nnoremap <c-s> :w<CR> # normal mode: save
 inoremap <c-s> <Esc>:w<CR>l # insert mode: escape to normal and save
 vnoremap <c-s> <Esc>:w<CR> # visual mode: escape to normal and save
