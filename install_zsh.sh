@@ -35,7 +35,7 @@ if [[ ${PATH} != *"${PYENV}"* ]]; then
         # eval "${pyenv virtualenv-init -}"
 fi
 
-' >> ${ZIM_HOME}/envs.zsh
+' >> ~/.zim/envs.zsh
 
 echo '
 #    +-----------------+
@@ -56,7 +56,7 @@ alias d="date +\"%F %R\""
 alias say="cowsay"
 alias e="exit"
 alias ra="ranger"
-' >> ${ZIM_HOME}/alias.zsh
+' >> ~/.zim/alias.zsh
 
 echo '
 # set envs and alias
