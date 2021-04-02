@@ -17,7 +17,7 @@ sudo pacman -S \
     pyenv \
     figlet cowsay \
     ttf-dejavu noto-fonts-cjk ttf-nerd-fonts-symbols-mono \
-    ranger ueberzug poppler xpdf \
+    ranger ueberzug poppler xpdf
 
 
 mkdir ~/.dwm
