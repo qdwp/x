@@ -56,6 +56,9 @@ alias d="date +\"%F %R\""
 alias say="cowsay"
 alias e="exit"
 alias ra="ranger"
+
+alias pacmanautoremove="sudo pacman -Rs $(sudo pacman -Qdtq)"
+alias yayautoremove="yay -Rs $(yay -Qdtq)"
 ' >> ~/.zim/alias.zsh
 
 echo '
