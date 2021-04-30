@@ -72,6 +72,9 @@ map R :source $MYVIMRC<CR>
 noremap W :w<CR>
 noremap Q :q<CR>
 
+
+noremap ; :
+
 " paste
 set clipboard=unnamed
 set pastetoggle=<LEADER>p
@@ -136,6 +139,11 @@ nnoremap <LEADER>L :bufdo e<CR>
 " Install Vim-Plug
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+if empty(glob('~/.vim/autoload/plug.vim'))
+	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
@@ -148,17 +156,19 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'connorholyday/vim-snazzy'
 Plug 'Yggdroot/indentLine'
 Plug 'voldikss/vim-floaterm'
+Plug 'ryanoasis/vim-devicons'
 
 " Search & Place & Edit
 Plug 'easymotion/vim-easymotion'
-Plug 'preservim/nerdtree'
 Plug 'tpope/vim-surround'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'                                   " Ag need install  `the_silver_searcher`
 Plug 'brooth/far.vim'
 Plug 'jiangmiao/auto-pairs'
-Plug 'preservim/nerdcommenter'
-Plug 'xuyuanp/nerdtree-git-plugin'
+
+" Plug 'preservim/nerdtree'
+" Plug 'xuyuanp/nerdtree-git-plugin'
+" Plug 'preservim/nerdcommenter'
 
 " Markdown
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
@@ -174,7 +184,8 @@ Plug 'vim-scripts/Unicode-RST-Tables'
 
 " Programming
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*' }
+Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*' }
+Plug 'honza/vim-snippets'
 
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
@@ -182,12 +193,18 @@ Plug 'peitalin/vim-jsx-typescript'
 " Initialize plugin system
 call plug#end()
 
+" ====================================================================
+
 " Set airline theme
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
+
+let g:webdevicons_enable_airline_tabline = 1
+let g:webdevicons_enable_airline_statusline = 1
+
 nnoremap <LEADER>0 :tabnew<CR>
 nnoremap <LEADER>1 :tabnext 1<CR>
 nnoremap <LEADER>2 :tabnext 2<CR>
@@ -200,6 +217,7 @@ nnoremap <LEADER>8 :tabnext 8<CR>
 nnoremap <LEADER>9 :tabnext 9<CR>
 nnoremap - :tabNext<CR>
 nnoremap = :tabnext<CR>
+
 
 " plugin mapping o   open selected files or directories or bookmarks
 " plugin mapping go  open selected ..., but leave cursor in the NERDTree
@@ -299,39 +317,39 @@ let g:bullets_line_spacing = 1 " default = 1
 "
 
 
-" nerdtree
-inoremap <C-t> <Esc>:NERDTreeToggle<CR>
-nnoremap <C-t> <Esc>:NERDTreeToggle<CR>
-nnoremap tt :NERDTreeToggle<CR>
-nnoremap <LEADER>f :NERDTreeFind<CR>
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-let g:NERDTreeAutoDeleteBuffer = 1
-let NERDTreeShowHidden=1
-let NERDTreeIgnore = [
-    \ '\.code', '\.idea', '\.DS_Store',
-    \ '\.git$', '\.gitignore',
-    \ '\.pyc$', '\.pyo$', '__pycache__',
-    \ ]
+" " nerdtree
+" inoremap <C-t> <Esc>:NERDTreeToggle<CR>
+" nnoremap <C-t> <Esc>:NERDTreeToggle<CR>
+" nnoremap tt :NERDTreeToggle<CR>
+" nnoremap <LEADER>f :NERDTreeFind<CR>
+" let g:NERDTreeDirArrowExpandable = '▸'
+" let g:NERDTreeDirArrowCollapsible = '▾'
+" let g:NERDTreeAutoDeleteBuffer = 1
+" let NERDTreeShowHidden=1
+" let NERDTreeIgnore = [
+"     \ '\.code', '\.idea', '\.DS_Store',
+"     \ '\.git$', '\.gitignore',
+"     \ '\.pyc$', '\.pyo$', '__pycache__',
+"     \ ]
 
-" nerdcommenter
-let g:NERDSpaceDelims = 1
-let g:NERDDefaultAlign = 'left'
+" " nerdcommenter
+" let g:NERDSpaceDelims = 1
+" let g:NERDDefaultAlign = 'left'
 
 " nerdtree-git-plugin
-let g:NERDTreeGitStatusIndicatorMapCustom = {
-                \ 'Modified'  :'✹',
-                \ 'Staged'    :'✚',
-                \ 'Untracked' :'✭',
-                \ 'Renamed'   :'➜',
-                \ 'Unmerged'  :'═',
-                \ 'Deleted'   :'✖',
-                \ 'Dirty'     :'✗',
-                \ 'Ignored'   :'☒',
-                \ 'Clean'     :'✔︎',
-                \ 'Unknown'   :'?',
-                \ }
-let g:NERDTreeGitStatusUseNerdFonts = 1 " you should install nerdfonts by yourself. default: 0
+" let g:NERDTreeGitStatusIndicatorMapCustom = {
+"                 \ 'Modified'  :'✹',
+"                 \ 'Staged'    :'✚',
+"                 \ 'Untracked' :'✭',
+"                 \ 'Renamed'   :'➜',
+"                 \ 'Unmerged'  :'═',
+"                 \ 'Deleted'   :'✖',
+"                 \ 'Dirty'     :'✗',
+"                 \ 'Ignored'   :'☒',
+"                 \ 'Clean'     :'✔︎',
+"                 \ 'Unknown'   :'?',
+"                 \ }
+" let g:NERDTreeGitStatusUseNerdFonts = 1 " you should install nerdfonts by yourself. default: 0
 
 
 " vim-gitgutter
@@ -346,14 +364,16 @@ let g:go_doc_keywordprg_enabled = 0
 " Initialize install.
 " :CocInstall marketplace
 let g:coc_global_extensions = [
-    \ 'coc-json',
-    \ 'coc-vimlsp',
+    \ 'coc-explorer',
+    \ 'coc-git',
     \ 'coc-go',
-    \ 'coc-tsserver',
-    \ 'coc-snippets',
     \ 'coc-jedi',
+    \ 'coc-json',
     \ 'coc-python',
+    \ 'coc-snippets',
     \ 'coc-translator',
+    \ 'coc-tsserver',
+    \ 'coc-vimlsp',
     \ ]
 
 set hidden
@@ -367,7 +387,7 @@ inoremap <silent><expr> <TAB>
       \umvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-n>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -383,6 +403,7 @@ function! s:show_documentation()
   endif
 endfunction
 
+nnoremap tt :CocCommand explorer<CR>
 
 nmap <Leader>z <Plug>(coc-translator-p)
 vmap <Leader>z <Plug>(coc-translator-pv)
