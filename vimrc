@@ -168,7 +168,7 @@ Plug 'jiangmiao/auto-pairs'
 
 " Plug 'preservim/nerdtree'
 " Plug 'xuyuanp/nerdtree-git-plugin'
-" Plug 'preservim/nerdcommenter'
+Plug 'preservim/nerdcommenter'
 
 " Markdown
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
@@ -333,8 +333,29 @@ let g:bullets_line_spacing = 1 " default = 1
 "     \ ]
 
 " " nerdcommenter
-" let g:NERDSpaceDelims = 1
-" let g:NERDDefaultAlign = 'left'
+" Create default mappings
+let g:NERDCreateDefaultMappings = 1
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 0
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+" Enable NERDCommenterToggle to check all selected lines is commented or not 
+let g:NERDToggleCheckAllLines = 1
 
 " nerdtree-git-plugin
 " let g:NERDTreeGitStatusIndicatorMapCustom = {
@@ -384,10 +405,10 @@ set shortmess+=c
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " otherlugin beforeutting this into your config.
 inoremap <silent><expr> <TAB>
-      \umvisible() ? "\<C-n>" :
+      \umvisible() ? "\<TAB>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-n>"
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
