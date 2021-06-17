@@ -7,7 +7,7 @@ sudo pacman -S imlib2
 git clone https://github.com/qdwp/dwm ~/repos/dwm --depth=1
 git clone https://github.com/qdwp/st ~/repos/st --depth=1
 git clone https://github.com/qdwp/dmenu ~/repos/dmenu --depth=1
-git clone https://github.com/qdwp/clock ~/repos/slock --depth=1
+git clone https://github.com/qdwp/slock ~/repos/slock --depth=1
 
 cd ~/repos/dwm
 make

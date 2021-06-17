@@ -3,7 +3,7 @@
 set -e
 
 sudo pacman -S gvim
-cp ./vimrc ~/.vim/vimrc
+cp ./vimrc ~/.vimrc
 
 sudo pacman -S chromium the_silver_searcher nodejs npm
 sudo npm -g install instant-markdown-d
