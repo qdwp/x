@@ -2,7 +2,7 @@
 
 set -e
 
-sudo pacman -S zsh
+sudo pacman -S zsh wget
 wget -nv -O - https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
 cd ~/.zim/modules
 git clone https://github.com/zimfw/magicmace --depth=1
@@ -52,7 +52,7 @@ echo '
 alias c="clear"
 alias s="neofetch"
 alias lg="lazygit"
-alias d="date +\"%F %R\""
+alias d="date +\"%F %T\""
 alias say="cowsay"
 alias e="exit"
 # alias ra="ranger"
