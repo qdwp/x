@@ -1,3 +1,7 @@
-# personal-tools
+# 工具集
 
-* 添加 vimrc 文件
+
+## VIM 注释字体颜色调整
+
+![snazzy 插件](https://raw.githubusercontent.com/qdwp/x/images/bucket01/20210731110303.png)
+
