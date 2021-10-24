@@ -395,10 +395,15 @@ set shortmess+=c
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " otherlugin beforeutting this into your config.
 inoremap <silent><expr> <TAB>
-      \umvisible() ? "\<C-n>" :
+      \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-n>"
+
+if exists('*complete_info')
+  inoremap <silent><expr> <cr> complete_info(['selected'])['selected'] != -1 ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
 
 function! s:check_back_space() abort
   let col = col('.') - 1
