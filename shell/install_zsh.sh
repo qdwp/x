@@ -30,7 +30,7 @@ fi
 export PYENV="$ins{HOME}/.pyenv"
 
 if [[ ${PATH} != *"${PYENV}"* ]]; then
-        export PATH="${PATH}:${PYENV}/bin"
+        export PATH="${HOME}/.pyenv/shims:${PATH}:${PYENV}/bin"
         eval "$(pyenv init -)"
         # eval "${pyenv virtualenv-init -}"
 fi

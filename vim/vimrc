@@ -155,7 +155,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'connorholyday/vim-snazzy'
 Plug 'Yggdroot/indentLine'
-Plug 'voldikss/vim-floaterm'
 Plug 'ryanoasis/vim-devicons'
 
 " Search & Place & Edit
@@ -165,6 +164,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'                                   " Ag need install  `the_silver_searcher`
 Plug 'brooth/far.vim'
 Plug 'jiangmiao/auto-pairs'
+Plug 'voldikss/vim-floaterm'
 
 " Plug 'preservim/nerdtree'
 " Plug 'xuyuanp/nerdtree-git-plugin'
@@ -184,7 +184,7 @@ Plug 'vim-scripts/Unicode-RST-Tables'
 
 " Programming
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*' }
+"Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*' }
 Plug 'honza/vim-snippets'
 
 Plug 'leafgarland/typescript-vim'
@@ -245,7 +245,12 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
 " vim-float-terminal
 let g:floaterm_autoclose = 1
+let g:floaterm_wintype = 'float'
+let g:floaterm_keymap_toggle = '<F12>'
+let g:floaterm_position = 'topright'
+let g:floaterm_shell = 'zsh'
 
+hi Floaterm guibg='#444444'
 
 " Find by 2 characters
 nmap ss <Plug>(easymotion-s2)
@@ -396,6 +401,8 @@ let g:coc_global_extensions = [
     \ 'coc-tsserver',
     \ 'coc-vimlsp',
     \ ]
+
+let g:node_client_debug = 1
 
 set hidden
 set updatetime=100
