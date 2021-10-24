@@ -165,12 +165,19 @@ Plug 'ryanoasis/vim-devicons'
 " Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-surround'
+Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'                                   " Ag need install  `the_silver_searcher`
 Plug 'brooth/far.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'preservim/nerdcommenter'
 Plug 'voldikss/vim-floaterm'
+
+"" dependencies
+"Plug 'nvim-lua/popup.nvim'
+"Plug 'nvim-lua/plenary.nvim'
+"" telescope
+"Plug 'nvim-telescope/telescope.nvim'
 
 " Markdown
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
@@ -424,4 +431,8 @@ let g:node_client_debug = 1
 " set filetypes as typescript.tsx
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
 
+
+" FZF
+nnoremap <leader>ff <cmd>Files<cr>
+nnoremap <leader>fg <cmd>Ag<cr>
 
