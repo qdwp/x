@@ -60,8 +60,9 @@ if has("autocmd")
 
 endif
 
-" set hlsearch                    " High light search
-" exec "nohlsearch"
+set hlsearch                    " High light search
+nnoremap <esc> :nohlsearch<return><esc>
+
 set incsearch
 set ignorecase
 set smartcase
@@ -110,10 +111,10 @@ nnoremap <leader>l <c-w>l
 nnoremap <leader>j <c-w>j
 nnoremap <leader>k <c-w>k
 
-nnoremap <leader><up> :res +5<CR>
-nnoremap <leader><down> :res -5<CR>
-nnoremap <leader><left> :vertical resize-5<CR>
-nnoremap <leader><right> :vertical resize+5<CR>
+nnoremap <leader>K :res +5<CR>
+nnoremap <leader>J :res -5<CR>
+nnoremap <leader>H :vertical resize-5<CR>
+nnoremap <leader>L :vertical resize+5<CR>
 
 
 " nnoremap <C-z> u
@@ -123,7 +124,7 @@ nnoremap U <C-r>
 nnoremap <c-s> :w<CR>
 inoremap <c-s> <Esc>:w<CR>a
 
-nnoremap <LEADER>L :bufdo e<CR>
+"nnoremap <LEADER>L :bufdo e<CR>
 
 "             +---------+
 "             | Plugins |
