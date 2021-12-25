@@ -97,10 +97,10 @@ nnoremap D d0i<BS><Esc>l
 " Force to write file
 cnoremap w!! w !sudo tee % > /dev/null
 
-nnoremap sl :set splitright<CR>:vsplit<CR>
-nnoremap sh :set nosplitright<CR>:vsplit<CR>
-nnoremap sk :set nosplitbelow<CR>:split<CR>
-nnoremap sj :set splitbelow<CR>:split<CR>
+"nnoremap sl :set splitright<CR>:vsplit<CR>
+"nnoremap sh :set nosplitright<CR>:vsplit<CR>
+"nnoremap sk :set nosplitbelow<CR>:split<CR>
+"nnoremap sj :set splitbelow<CR>:split<CR>
 
 nnoremap K 10k
 nnoremap J 10j
@@ -164,7 +164,8 @@ Plug 'ryanoasis/vim-devicons'
 " Search & Place & Edit
 " Plug 'preservim/nerdtree'
 " Plug 'xuyuanp/nerdtree-git-plugin'
-Plug 'easymotion/vim-easymotion'
+"Plug 'easymotion/vim-easymotion'
+Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-surround'
 Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -179,6 +180,10 @@ Plug 'voldikss/vim-floaterm'
 "Plug 'nvim-lua/plenary.nvim'
 "" telescope
 "Plug 'nvim-telescope/telescope.nvim'
+
+" vim-ranger
+Plug 'francoiscabrol/ranger.vim'
+Plug 'rbgrouleff/bclose.vim'
 
 " Markdown
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
@@ -258,10 +263,18 @@ let g:floaterm_keymap_toggle = 'termi'
 "let g:floaterm_position = 'topright'
 ""hi Floaterm guibg='#444444'
 "hi FloatermBorder guibg='#444444' guifg='#444444'
+"nnoremap <silent> <leader>tt :FloatermToggle<CR>
 
 
-" Find by 2 characters
-nmap ss <Plug>(easymotion-s2)
+"" Find by 2 characters
+"nmap ss <Plug>(easymotion-s2)
+
+" vim-sneak
+map s <Plug>Sneak_s
+map S <Plug>Sneak_S
+
+map f <Plug>Sneak_f
+map F <Plug>Sneak_F
 
 " vim-instant-markdown
 nnoremap <LEADER>( <Esc>:InstantMarkdownPreview<CR>
@@ -278,6 +291,7 @@ let g:instant_markdown_autostart = 0
 " let g:instant_markdown_allow_external_content = 0
 let g:instant_markdown_mathjax = 1
 let g:instant_markdown_autoscroll = 1
+let g:instant_markdown_port = 9999
 let g:instant_markdown_browser = "chromium --new-window"
 
 if has("autocmd")
@@ -431,7 +445,7 @@ nmap <silent> gr <Plug>(coc-references)
 
 nmap <c-]> <Plug>(coc-definition)
 
-nmap tt :CocCommand explorer<CR>
+nmap ;e :CocCommand explorer<CR>
 let g:node_client_debug = 1
 
 " set filetypes as typescript.tsx
