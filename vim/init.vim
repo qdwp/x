@@ -76,6 +76,8 @@ set cursorline
 set cursorcolumn
 set wildmenu
 
+set foldmethod=syntax
+
 let mapleader=" "
 let g:mapleader=" "
 
@@ -94,8 +96,10 @@ nnoremap <LEADER>p "+p
 set backspace=indent,eol,start
 nnoremap D d0i<BS><Esc>l
 
-" Force to write file
+" 强制写入文件
 cnoremap w!! w !sudo tee % > /dev/null
+" 删除所有缓冲区文件，并重新打开当前文件
+cnoremap bda %bd\|e#\|bd#<CR>
 
 "nnoremap sl :set splitright<CR>:vsplit<CR>
 "nnoremap sh :set nosplitright<CR>:vsplit<CR>
@@ -111,10 +115,10 @@ nnoremap <leader>l <c-w>l
 nnoremap <leader>j <c-w>j
 nnoremap <leader>k <c-w>k
 
-nnoremap <leader>K :res +5<CR>
-nnoremap <leader>J :res -5<CR>
-nnoremap <leader>H :vertical resize-5<CR>
-nnoremap <leader>L :vertical resize+5<CR>
+"nnoremap <leader>K :res +5<CR>
+"nnoremap <leader>J :res -5<CR>
+"nnoremap <leader>H :vertical resize-5<CR>
+"nnoremap <leader>L :vertical resize+5<CR>
 
 
 " nnoremap <C-z> u
@@ -175,44 +179,50 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'preservim/nerdcommenter'
 Plug 'voldikss/vim-floaterm'
 
-"" dependencies
-"Plug 'nvim-lua/popup.nvim'
-"Plug 'nvim-lua/plenary.nvim'
-"" telescope
-"Plug 'nvim-telescope/telescope.nvim'
-
-" vim-ranger
-Plug 'francoiscabrol/ranger.vim'
-Plug 'rbgrouleff/bclose.vim'
+" 使用 Ranger 作为文件管理器
+"Plug 'francoiscabrol/ranger.vim'
+"Plug 'rbgrouleff/bclose.vim'
+Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 
 " Markdown
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle', 'for': ['text', 'markdown', 'vim-plug'] }
-Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug'] }
-Plug 'dkarter/bullets.vim'
+"Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug'] }
+"Plug 'dkarter/bullets.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " rsStructureText
-Plug 'vim-scripts/Unicode-RST-Tables'
+" Plug 'vim-scripts/Unicode-RST-Tables'
 
 
 " Programming
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*' }
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'fatih/vim-go', { 'for': ['go', 'vim-plug'], 'tag': '*' }
 Plug 'honza/vim-snippets'
 
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
+" 安装 TagBar 插件
+" brew install ctags
+Plug 'majutsushi/tagbar'
+
+" Vim Tag list for Go
+" 插件列出go文件中得变量、类型、函数等，并支持跳转, 需要通过gotags
+" go get -u github.com/jstemmer/gotags
+
+" TypeScript 插件
+"Plug 'leafgarland/typescript-vim'
+"Plug 'peitalin/vim-jsx-typescript'
 
 " Initialize plugin system
 call plug#end()
 
 " Set airline theme
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 0
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#left_sep = ' '
+"let g:airline#extensions#tabline#right_sep = ' '
+"let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
 
 let g:webdevicons_enable_airline_tabline = 1
@@ -258,8 +268,9 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 let g:floaterm_autoclose = 0
 let g:floaterm_title = ''
 let g:floaterm_wintype = 'float'
-"type `termi` to toggle terminam
-let g:floaterm_keymap_toggle = 'termi'
+
+" 唤醒浮动终端窗口 <alt-]>
+let g:floaterm_keymap_toggle = '‘'
 "let g:floaterm_position = 'topright'
 ""hi Floaterm guibg='#444444'
 "hi FloatermBorder guibg='#444444' guifg='#444444'
@@ -385,21 +396,53 @@ let g:gitgutter_max_signs = -1
 
 " vim-go
 let g:go_doc_keywordprg_enabled = 0
+let g:go_fmt_experimental = 1
+
+" TagBar 插件对 Golang 配置
+
+nnoremap <leader>t :TagbarToggle<CR>
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
 
 
 " coc.nvim
 " Initialize install.
 " :CocInstall marketplace
+" \ 'coc-explorer',
+" \ 'coc-translator',
 let g:coc_global_extensions = [
   \ 'coc-json',
-  \ 'coc-explorer',
   \ 'coc-vimlsp',
   \ 'coc-go',
   \ 'coc-tsserver',
   \ 'coc-snippets',
   \ 'coc-jedi',
   \ 'coc-python',
-  \ 'coc-translator',
   \ ]
 
 set hidden
@@ -435,8 +478,8 @@ function! s:show_documentation()
 endfunction
 
 
-nmap <Leader>z <Plug>(coc-translator-p)
-vmap <Leader>z <Plug>(coc-translator-pv)
+"nmap <Leader>z <Plug>(coc-translator-p)
+"vmap <Leader>z <Plug>(coc-translator-pv)
 
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -449,10 +492,20 @@ nmap ;e :CocCommand explorer<CR>
 let g:node_client_debug = 1
 
 " set filetypes as typescript.tsx
-autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
+"autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
 
 
 " FZF
 nnoremap <leader>ff <cmd>Files<cr>
+nnoremap <leader>fb <cmd>Buffers<cr>
 nnoremap <leader>fg <cmd>Ag<cr>
+
+" CHADtree
+nnoremap <leader>v <cmd>CHADopen<cr>
+
+
+
+
+
+
 
