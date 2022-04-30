@@ -171,6 +171,7 @@ Plug 'ryanoasis/vim-devicons'
 "Plug 'easymotion/vim-easymotion'
 Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-surround'
+" 指定项目根目录
 Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'                                   " Ag need install  `the_silver_searcher`
@@ -182,7 +183,7 @@ Plug 'voldikss/vim-floaterm'
 " 使用 Ranger 作为文件管理器
 "Plug 'francoiscabrol/ranger.vim'
 "Plug 'rbgrouleff/bclose.vim'
-Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+"Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 
 " Markdown
 "Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
@@ -404,6 +405,7 @@ let g:go_fmt_experimental = 1
 " TagBar 插件对 Golang 配置
 
 nnoremap <leader>t :TagbarToggle<CR>
+let g:tagbar_ctags_bin = "/opt/homebrew/bin/ctags"
 let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',
     \ 'kinds'     : [
@@ -439,6 +441,7 @@ let g:tagbar_type_go = {
 " \ 'coc-explorer',
 " \ 'coc-translator',
 let g:coc_global_extensions = [
+  \'coc-explorer',
   \ 'coc-json',
   \ 'coc-vimlsp',
   \ 'coc-go',
@@ -492,8 +495,8 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <c-]> <Plug>(coc-definition)
 
 "" coc 文件管理器
-"nmap ;e :CocCommand explorer<CR>
-"let g:node_client_debug = 1
+nmap ;e :CocCommand explorer<CR>
+let g:node_client_debug = 1
 
 " set filetypes as typescript.tsx
 "autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
@@ -505,7 +508,7 @@ nnoremap <leader>fb <cmd>Buffers<cr>
 nnoremap <leader>fg <cmd>Ag<cr>
 
 " CHADtree
-nnoremap <leader>v <cmd>CHADopen<cr>
+"nnoremap <leader>v <cmd>CHADopen<cr>
 
 
 
