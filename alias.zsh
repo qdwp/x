@@ -1,4 +1,4 @@
-#
+
 #    +-----------------+
 #    |  Command alias. |
 #    +-----------------+
@@ -11,34 +11,36 @@
 
 
 alias c="clear"
-alias e="exit"
 alias s="neofetch"
 alias lg="lazygit"
+alias d="date +\"%F %T\""
+alias say="cowsay"
+alias e="exit"
+alias vi="vim"
+alias vim="nvim"
 alias o="open ."
-alias now="date +'%F %T'"
+alias ss="open -a Sublime\ Text"
+alias ctags="/opt/homebrew/bin/ctags"
 
-# brew install trash
-alias rm="trash"
+ra() {
+    if [ -z "$RANGER_LEVEL" ]; then
+        ranger "$@"
+    else
+        exit
+    fi
+}
 
-alias vi="/usr/local/bin/vim"
-alias vim="/usr/local/bin/nvim"
+cdf() {
+   local file
+   local dir
+   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
+}
 
-
-alias gitlogs="git log --oneline --graph"
-alias gitlog="git log | head -n 30"
-
-eval $(thefuck --alias)
-alias fuck="fuck --yeah"
-
-alias f="fzf"
-
-#if type nvim > /dev/null 2>&1; then
-    #alias vi="/usr/local/bin/vim"
-    #alias vim="/usr/local/bin/nvim"
-#fi
-
-alias code="/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code"
-
-# xiaohongshu
-alias 001="sshpass -p Wait3344a ssh jufu@jumpserver-new.devops.xiaohongshu.com"
-
+# ANTLR4
+#
+# OS X
+# $ cd /usr/local/lib
+# $ sudo curl -O https://www.antlr.org/download/antlr-4.10.1-complete.jar
+# $ export CLASSPATH=".:/usr/local/lib/antlr-4.10.1-complete.jar:$CLASSPATH"
+alias antlr4='java -jar /usr/local/lib/antlr-4.10.1-complete.jar'
+alias grun='java org.antlr.v4.gui.TestRig'

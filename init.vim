@@ -168,8 +168,8 @@ Plug 'ryanoasis/vim-devicons'
 " Search & Place & Edit
 " Plug 'preservim/nerdtree'
 " Plug 'xuyuanp/nerdtree-git-plugin'
-"Plug 'easymotion/vim-easymotion'
-Plug 'justinmk/vim-sneak'
+Plug 'easymotion/vim-easymotion'
+"Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-surround'
 Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -185,11 +185,10 @@ Plug 'voldikss/vim-floaterm'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 
 " Markdown
-"Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
-"Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle', 'for': ['text', 'markdown', 'vim-plug'] }
+Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle', 'for': ['text', 'markdown', 'vim-plug'] }
 "Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug'] }
 "Plug 'dkarter/bullets.vim'
-
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
@@ -278,19 +277,31 @@ let g:floaterm_keymap_toggle = '‘'
 "nnoremap <silent> <leader>tt :FloatermToggle<CR>
 
 
-"" Find by 2 characters
-"nmap ss <Plug>(easymotion-s2)
+" 快速查找定位
+nmap s <Plug>(easymotion-s2)
+map f <Plug>(easymotion-prefix)
+map ff <Plug>(easymotion-s)
+map fs <Plug>(easymotion-f)
+map fl <Plug>(easymotion-lineforward)
+map fj <Plug>(easymotion-j)
+map fk <Plug>(easymotion-k)
+map fh <Plug>(easymotion-linebackward)
+"  查找忽略大小写
+let g:EasyMotion_smartcase = 1
 
-" vim-sneak
-map s <Plug>Sneak_s
-map S <Plug>Sneak_S
+"  快速查找定位 vim-sneak
+"map s <Plug>Sneak_s
+"map S <Plug>Sneak_S
 
-map f <Plug>Sneak_f
-map F <Plug>Sneak_F
+"map f <Plug>Sneak_f
+"map F <Plug>Sneak_F
+
+"map t <Plug>Sneak_t
+"map T <Plug>Sneak_T
 
 " vim-instant-markdown
-"nnoremap <LEADER>( <Esc>:InstantMarkdownPreview<CR>
-"nnoremap <LEADER>) <Esc>:InstantMarkdownStop<CR>
+nnoremap <LEADER>( <Esc>:InstantMarkdownPreview<CR>
+nnoremap <LEADER>) <Esc>:InstantMarkdownStop<CR>
 
 " rsStructureText Table
 " <leader><leader>c     :create table
@@ -301,37 +312,35 @@ let g:instant_markdown_autostart = 0
 " let g:instant_markdown_open_to_the_world = 1
 " let g:instant_markdown_allow_unsafe_content = 1
 " let g:instant_markdown_allow_external_content = 0
+let g:instant_markdown_mathjax = 1
+let g:instant_markdown_autoscroll = 1
+let g:instant_markdown_port = 9999
+let g:instant_markdown_browser = "chromium --new-window"
 
-"let g:instant_markdown_mathjax = 1
-"let g:instant_markdown_autoscroll = 1
-"let g:instant_markdown_port = 9999
-"let g:instant_markdown_browser = "chromium --new-window"
-
-"if has("autocmd")
-"	"autocmd Filetype markdown map <leader>w yiWi[<esc>Ea](<esc>pa)
-"	autocmd Filetype markdown inoremap <buffer> ,f <Esc>/<++><cr>:nohlsearch<cr>"_c4l
-"	autocmd filetype markdown inoremap <buffer> ,w <esc>/<++><CR>:nohlsearch<CR>"_c5l<CR>
-"	autocmd Filetype markdown inoremap <buffer> ,b **** <++><Esc>F*hi
-"	" autocmd Filetype markdown inoremap <buffer> ,n ---<Enter><Enter>
-"	" autocmd Filetype markdown inoremap <buffer> ,s ~~~~ <++><Esc>F~hi
-"	autocmd Filetype markdown inoremap <buffer> ,i ** <++><Esc>F*i
-"	autocmd Filetype markdown inoremap <buffer> ,d `` <++><Esc>F`i
-"	autocmd Filetype markdown inoremap <buffer> ,c ```<Enter><++><Enter>```<Enter><Enter><++><Esc>4kA
-"	autocmd Filetype markdown inoremap <buffer> ,m - [ ]
-"	autocmd Filetype markdown inoremap <buffer> ,p ![](<++>) <++><Esc>F[a
-"	autocmd Filetype markdown inoremap <buffer> ,a [](<++>) <++><Esc>F[a
-"	autocmd Filetype markdown inoremap <buffer> ,1 #<Space><Enter><Enter><++><Esc>kkA
-"	autocmd Filetype markdown inoremap <buffer> ,2 ##<Space><Enter><Enter><++><Esc>kkA
-"	autocmd Filetype markdown inoremap <buffer> ,3 ###<Space><Enter><Enter><++><Esc>kkA
-"	autocmd Filetype markdown inoremap <buffer> ,4 ####<Space><Enter><Enter><++><Esc>kkA
-"	autocmd Filetype markdown inoremap <buffer> ,l --------<Enter><Enter>
-"endif
+if has("autocmd")
+	"autocmd Filetype markdown map <leader>w yiWi[<esc>Ea](<esc>pa)
+	autocmd Filetype markdown inoremap <buffer> ,f <Esc>/<++><cr>:nohlsearch<cr>"_c4l
+	autocmd filetype markdown inoremap <buffer> ,w <esc>/<++><CR>:nohlsearch<CR>"_c5l<CR>
+	autocmd Filetype markdown inoremap <buffer> ,b **** <++><Esc>F*hi
+	" autocmd Fservice-name = "remote-config-service"iletype markdown inoremap <buffer> ,n ---<Enter><Enter>
+	" autocmd Filetype markdown inoremap <buffer> ,s ~~~~ <++><Esc>F~hi
+	autocmd Filetype markdown inoremap <buffer> ,i ** <++><Esc>F*i
+	autocmd Filetype markdown inoremap <buffer> ,d `` <++><Esc>F`i
+	autocmd Filetype markdown inoremap <buffer> ,c ```<Enter><++><Enter>```<Enter><Enter><++><Esc>4kA
+	autocmd Filetype markdown inoremap <buffer> ,m - [ ]
+	autocmd Filetype markdown inoremap <buffer> ,p ![](<++>) <++><Esc>F[a
+	autocmd Filetype markdown inoremap <buffer> ,a [](<++>) <++><Esc>F[a
+	autocmd Filetype markdown inoremap <buffer> ,1 #<Space><Enter><Enter><++><Esc>kkA
+	autocmd Filetype markdown inoremap <buffer> ,2 ##<Space><Enter><Enter><++><Esc>kkA
+	autocmd Filetype markdown inoremap <buffer> ,3 ###<Space><Enter><Enter><++><Esc>kkA
+	autocmd Filetype markdown inoremap <buffer> ,4 ####<Space><Enter><Enter><++><Esc>kkA
+	autocmd Filetype markdown inoremap <buffer> ,l --------<Enter><Enter>
+endif
 
 " vim-table-mode
-"noremap <LEADER>tm :TableModeToggle<CR>
-
-""let g:table_mode_disable_mappings = 1
-"let g:table_mode_cell_text_object_i_map = 'k<Bar>'
+noremap <LEADER>tm :TableModeToggle<CR>
+"let g:table_mode_disable_mappings = 1
+let g:table_mode_cell_text_object_i_map = 'k<Bar>'
 
 noremap <LEADER>\ :call CompileRunGcc()<CR>
 func! CompileRunGcc()
@@ -344,17 +353,17 @@ func! CompileRunGcc()
 
 endfunc
 
-"" Bullets.vim
-"let g:bullets_enabled_file_types = [
-"    \ 'markdown',
-"    \ 'text',
-"    \ 'gitcommit',
-"    \ 'scratch'
-"    \ ]
+" Bullets.vim
+let g:bullets_enabled_file_types = [
+    \ 'markdown',
+    \ 'text',
+    \ 'gitcommit',
+    \ 'scratch'
+    \ ]
 " let g:bullets_set_mappings = 0                      " default = 1
 " let g:bullets_delete_last_bullet_if_empty = 1       " default = 1
 " let g:bullets_pad_right = 0                         " default = 1
-"let g:bullets_line_spacing = 1 " default = 1
+let g:bullets_line_spacing = 1 " default = 1
 "
 
 
@@ -491,9 +500,8 @@ nmap <silent> gr <Plug>(coc-references)
 
 nmap <c-]> <Plug>(coc-definition)
 
-"" coc 文件管理器
-"nmap ;e :CocCommand explorer<CR>
-"let g:node_client_debug = 1
+nmap ;e :CocCommand explorer<CR>
+let g:node_client_debug = 1
 
 " set filetypes as typescript.tsx
 "autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
