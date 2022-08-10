@@ -36,7 +36,7 @@ cdf() {
    file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
 }
 
-# ANTLR4
+# ANTLR4(Java 1.11 at least)
 #
 # OS X
 # $ cd /usr/local/lib

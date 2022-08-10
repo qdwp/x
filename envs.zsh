@@ -33,6 +33,6 @@ export FZF_DEFAULT_OPTS="--height 50% --layout=reverse --border --layout=reverse
 # XHS Exception
 export GIT_TERMINAL_PROMPT=1
 
-# Java
+# Java version 1.11 at least
 export CLASSPATH=".:/usr/local/lib/antlr-4.10.1-complete.jar:${CLASSPATH}"
 

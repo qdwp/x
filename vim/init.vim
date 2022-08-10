@@ -17,23 +17,33 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
 	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" Common Configurations
-
+" ===============================================
+" 不在兼容旧版本 vi
+" -----------------------------------------------
 set nocompatible
 
+" 开启类型检查
+" 文件内容自动对齐
+" -----------------------------------------------
 filetype on
 filetype indent on
 filetype plugin on
 filetype plugin indent on
 
+" ===============================================
+" 基本设置：支持鼠标操作
 set mouse=a
 " if vim in st(suckless simple terminal) cannot scrolldown with mouse
 " set ttymouse=sgr
 
+" 开启语法高亮
 syntax on
+" 显示行号
 set number
+" 显示相对行号
 set relativenumber
 
+" 显示时 顶部/底部 保留 5 行缓冲
 set scrolloff=5
 set tw=0
 set list
@@ -42,12 +52,16 @@ set autochdir
 set nobackup
 set noswapfile
 
+
+" ===============================================
+" 设置 tab 键空格定义
 set tabstop=4			" ts
 set softtabstop=4		" sts
 set shiftwidth=4		" sw
 set expandtab			" et
 set autoindent
 
+" 设置 go 语言默认 tab 键占用 4 个空格
 if has("autocmd")
     au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
@@ -59,6 +73,9 @@ if has("autocmd")
     autocmd FileType json,markdown let g:indentLine_conceallevel=0
 
 endif
+
+" ===============================================
+
 
 set hlsearch                    " High light search
 nnoremap <esc> :nohlsearch<return><esc>
@@ -76,12 +93,16 @@ set cursorline
 set cursorcolumn
 set wildmenu
 
-set foldmethod=syntax
+set foldmethod=syntax  " marker " syntax
+"set foldnestmax=20
+set foldlevelstart=99
 
 let mapleader=" "
 let g:mapleader=" "
 
-map R :source $MYVIMRC<CR>
+" 重新加载 VIM 资源文件
+"map R :source $MYVIMRC<CR>
+
 noremap W :w<CR>
 noremap Q :q<CR>
 
@@ -94,17 +115,13 @@ nnoremap <LEADER>p "+p
 
 " set backspace=2
 set backspace=indent,eol,start
-nnoremap D d0i<BS><Esc>l
+nnoremap dD d0i<BS><Esc>l
 
 " 强制写入文件
 cnoremap w!! w !sudo tee % > /dev/null
 " 删除所有缓冲区文件，并重新打开当前文件
 cnoremap bda %bd\|e#\|bd#<CR>
 
-"nnoremap sl :set splitright<CR>:vsplit<CR>
-"nnoremap sh :set nosplitright<CR>:vsplit<CR>
-"nnoremap sk :set nosplitbelow<CR>:split<CR>
-"nnoremap sj :set splitbelow<CR>:split<CR>
 
 nnoremap K 10k
 nnoremap J 10j
@@ -115,14 +132,15 @@ nnoremap <leader>l <c-w>l
 nnoremap <leader>j <c-w>j
 nnoremap <leader>k <c-w>k
 
-"nnoremap <leader>K :res +5<CR>
-"nnoremap <leader>J :res -5<CR>
-"nnoremap <leader>H :vertical resize-5<CR>
-"nnoremap <leader>L :vertical resize+5<CR>
 
+nnoremap <leader>K :res +5<CR>
+nnoremap <leader>J :res -5<CR>
+nnoremap <leader>H :vertical resize-5<CR>
+nnoremap <leader>L :vertical resize+5<CR>
 
-" nnoremap <C-z> u
-" inoremap <C-z> <Esc>ua
+" 与 u 相反
+" u -> undo
+" U -> redo
 nnoremap U <C-r>
 
 nnoremap <c-s> :w<CR>
@@ -148,6 +166,9 @@ inoremap <c-s> <Esc>:w<CR>a
 " For Ubuntu
 " sudo apt-get install silversearcher-ag
 
+
+" ===============================================
+" 安装插件工具 Vim-Plug
 " Install Vim-Plug
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
@@ -158,6 +179,9 @@ inoremap <c-s> <Esc>:w<CR>a
 call plug#begin('~/.config/nvim/plugged')
 
 " Init
+
+" ===============================================
+" 定义主题、图标等
 Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -165,44 +189,73 @@ Plug 'connorholyday/vim-snazzy'
 Plug 'Yggdroot/indentLine'
 Plug 'ryanoasis/vim-devicons'
 
-" Search & Place & Edit
-" Plug 'preservim/nerdtree'
-" Plug 'xuyuanp/nerdtree-git-plugin'
-"Plug 'easymotion/vim-easymotion'
-Plug 'justinmk/vim-sneak'
+" -----------------------------------------------
+" 快速搜索，屏幕显示范围内两个字符快速定位
+"Plug 'justinmk/vim-sneak'
+
 Plug 'tpope/vim-surround'
-" 指定项目根目录
+
+" -----------------------------------------------
+" 声明指定项目根目录
 Plug 'airblade/vim-rooter'
+
+" -----------------------------------------------
+" 文件快速查找工具 FZF
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'                                   " Ag need install  `the_silver_searcher`
+
+
+" -----------------------------------------------
+" 文件管理器 Ranger
+" 仅支持 neovim
+" ------------------------
+"# ArchLinux install all requirements is extremely convenient
+"yay -S ranger python-pynvim ueberzug
+
+"# pip
+
+"# macOS users please install ranger by `pip3 ranger-fm` instead of `brew install ranger`
+"# There're some issues about installation, such as https://github.com/ranger/ranger/issues/1214
+"# Please refer to the issues of ranger for more details
+"pip3 install ranger-fm pynvim
+
+"# ueberzug is not supported in macOS because it depends on X11
+"pip3 install ueberzug
+
+Plug 'kevinhwang91/rnvimr'
+
+" -----------------------------------------------
+" 代码快速重构工具
 Plug 'brooth/far.vim'
+
+" -----------------------------------------------
+" 自动补全括号、单引号、双引号等
 Plug 'jiangmiao/auto-pairs'
+
+" -----------------------------------------------
+" 文本注释插件
 Plug 'preservim/nerdcommenter'
+
+" -----------------------------------------------
+" 浮动终端插件
 Plug 'voldikss/vim-floaterm'
 
-" 使用 Ranger 作为文件管理器
-"Plug 'francoiscabrol/ranger.vim'
-"Plug 'rbgrouleff/bclose.vim'
-"Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
-
-" Markdown
-"Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
-"Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle', 'for': ['text', 'markdown', 'vim-plug'] }
-"Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug'] }
-"Plug 'dkarter/bullets.vim'
-
+" -----------------------------------------------
+" 文件 git 显示插件
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-" rsStructureText
-" Plug 'vim-scripts/Unicode-RST-Tables'
 
-
-" Programming
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" -----------------------------------------------
+" 编程相关插件
+"Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go', { 'for': ['go', 'vim-plug'], 'tag': '*' }
 Plug 'honza/vim-snippets'
+
+" -----------------------------------------------
+" 异步 lint 引擎
+Plug 'dense-analysis/ale'
 
 " 安装 TagBar 插件
 " brew install ctags
@@ -212,9 +265,6 @@ Plug 'majutsushi/tagbar'
 " 插件列出go文件中得变量、类型、函数等，并支持跳转, 需要通过gotags
 " go get -u github.com/jstemmer/gotags
 
-" TypeScript 插件
-"Plug 'leafgarland/typescript-vim'
-"Plug 'peitalin/vim-jsx-typescript'
 
 " Initialize plugin system
 call plug#end()
@@ -222,35 +272,11 @@ call plug#end()
 " Set airline theme
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#left_sep = ' '
-"let g:airline#extensions#tabline#right_sep = ' '
-"let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
 
 let g:webdevicons_enable_airline_tabline = 1
 let g:webdevicons_enable_airline_statusline = 1
 
-nnoremap <LEADER>0 :tabnew<CR>
-nnoremap <LEADER>1 :tabnext 1<CR>
-nnoremap <LEADER>2 :tabnext 2<CR>
-nnoremap <LEADER>3 :tabnext 3<CR>
-nnoremap <LEADER>4 :tabnext 4<CR>
-nnoremap <LEADER>5 :tabnext 5<CR>
-nnoremap <LEADER>6 :tabnext 6<CR>
-nnoremap <LEADER>7 :tabnext 7<CR>
-nnoremap <LEADER>8 :tabnext 8<CR>
-nnoremap <LEADER>9 :tabnext 9<CR>
-nnoremap - :tabNext<CR>
-nnoremap = :tabnext<CR>
-
-" plugin mapping o   open selected files or directories or bookmarks
-" plugin mapping go  open selected ..., but leave cursor in the NERDTree
-" plugin mapping t   open selected node/bookmark in a new tab
-" plugin mapping T   open selected ..., but leave cursor in the NERDTree
-" plugin mapping i   open selected file in a split window
-" plugin mapping gi  open selected file in a split window, but leave cursor in the NERDTree
-" plugin mapping s   open selected file in a vsplit window
-" plugin mapping gs  open selected file in a vsplit windo, but leave cursor in the NERDTree
 
 " Set colorscheme
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum" " set foreground color
@@ -261,78 +287,53 @@ set termguicolors                    " Enable GUI colors for the terminal to get
 let g:SnazzyTransparent = 1
 colorscheme snazzy
 
-" indentLine
-" let g:indentLine_char = 'c'
+
+" ===============================================
+" 左对齐格式
 let g:vim_json_syntax_conceal = 0
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
+" Make Ranger replace Netrw and be the file explorer
+let g:rnvimr_enable_ex = 1
+
+" Make Ranger to be hidden after picking a file
+let g:rnvimr_enable_picker = 1
+
+
+" ===============================================
+" The Nerd Commenter
+" 文本注释，在多行左侧对齐，保留文件原对齐格式
+let g:NERDDefaultAlign = 'left'
+
+
+" ===============================================
+" 打开/关闭浮动终端窗口
+" 使用插件：Plug 'voldikss/vim-floaterm'
+" -----------------------------------------------
+nnoremap <silent>  <F1>  :FloatermToggle<CR>
+tnoremap <silent>  <F1>  <C-\><C-n>:FloatermToggle<CR>
+
+" -----------------------------------------------
 " vim-float-terminal
 let g:floaterm_autoclose = 0
 let g:floaterm_title = ''
 let g:floaterm_wintype = 'float'
+let g:floaterm_position = 'topright'
+let g:floaterm_width = 0.5
+let g:floaterm_height = 0.6
 
-" 唤醒浮动终端窗口 <alt-]>
-let g:floaterm_keymap_toggle = '‘'
-"let g:floaterm_position = 'topright'
-""hi Floaterm guibg='#444444'
-"hi FloatermBorder guibg='#444444' guifg='#444444'
-"nnoremap <silent> <leader>tt :FloatermToggle<CR>
-
+" ===============================================
 
 "" Find by 2 characters
 "nmap ss <Plug>(easymotion-s2)
 
-" vim-sneak
-map s <Plug>Sneak_s
-map S <Plug>Sneak_S
+"" vim-sneak
+"nnoremap s <Plug>Sneak_s
+"nnoremap S <Plug>Sneak_S
 
-map f <Plug>Sneak_f
-map F <Plug>Sneak_F
+"nnoremap f <Plug>Sneak_f
+"nnoremap F <Plug>Sneak_F
 
-" vim-instant-markdown
-"nnoremap <LEADER>( <Esc>:InstantMarkdownPreview<CR>
-"nnoremap <LEADER>) <Esc>:InstantMarkdownStop<CR>
-
-" rsStructureText Table
-" <leader><leader>c     :create table
-" <leader><leader>f     :format table
-
-let g:instant_markdown_slow = 0
-let g:instant_markdown_autostart = 0
-" let g:instant_markdown_open_to_the_world = 1
-" let g:instant_markdown_allow_unsafe_content = 1
-" let g:instant_markdown_allow_external_content = 0
-
-"let g:instant_markdown_mathjax = 1
-"let g:instant_markdown_autoscroll = 1
-"let g:instant_markdown_port = 9999
-"let g:instant_markdown_browser = "chromium --new-window"
-
-"if has("autocmd")
-"	"autocmd Filetype markdown map <leader>w yiWi[<esc>Ea](<esc>pa)
-"	autocmd Filetype markdown inoremap <buffer> ,f <Esc>/<++><cr>:nohlsearch<cr>"_c4l
-"	autocmd filetype markdown inoremap <buffer> ,w <esc>/<++><CR>:nohlsearch<CR>"_c5l<CR>
-"	autocmd Filetype markdown inoremap <buffer> ,b **** <++><Esc>F*hi
-"	" autocmd Filetype markdown inoremap <buffer> ,n ---<Enter><Enter>
-"	" autocmd Filetype markdown inoremap <buffer> ,s ~~~~ <++><Esc>F~hi
-"	autocmd Filetype markdown inoremap <buffer> ,i ** <++><Esc>F*i
-"	autocmd Filetype markdown inoremap <buffer> ,d `` <++><Esc>F`i
-"	autocmd Filetype markdown inoremap <buffer> ,c ```<Enter><++><Enter>```<Enter><Enter><++><Esc>4kA
-"	autocmd Filetype markdown inoremap <buffer> ,m - [ ]
-"	autocmd Filetype markdown inoremap <buffer> ,p ![](<++>) <++><Esc>F[a
-"	autocmd Filetype markdown inoremap <buffer> ,a [](<++>) <++><Esc>F[a
-"	autocmd Filetype markdown inoremap <buffer> ,1 #<Space><Enter><Enter><++><Esc>kkA
-"	autocmd Filetype markdown inoremap <buffer> ,2 ##<Space><Enter><Enter><++><Esc>kkA
-"	autocmd Filetype markdown inoremap <buffer> ,3 ###<Space><Enter><Enter><++><Esc>kkA
-"	autocmd Filetype markdown inoremap <buffer> ,4 ####<Space><Enter><Enter><++><Esc>kkA
-"	autocmd Filetype markdown inoremap <buffer> ,l --------<Enter><Enter>
-"endif
-
-" vim-table-mode
-"noremap <LEADER>tm :TableModeToggle<CR>
-
-""let g:table_mode_disable_mappings = 1
-"let g:table_mode_cell_text_object_i_map = 'k<Bar>'
 
 noremap <LEADER>\ :call CompileRunGcc()<CR>
 func! CompileRunGcc()
@@ -345,66 +346,24 @@ func! CompileRunGcc()
 
 endfunc
 
-"" Bullets.vim
-"let g:bullets_enabled_file_types = [
-"    \ 'markdown',
-"    \ 'text',
-"    \ 'gitcommit',
-"    \ 'scratch'
-"    \ ]
-" let g:bullets_set_mappings = 0                      " default = 1
-" let g:bullets_delete_last_bullet_if_empty = 1       " default = 1
-" let g:bullets_pad_right = 0                         " default = 1
-"let g:bullets_line_spacing = 1 " default = 1
-"
-
-
-" " nerdtree
-" inoremap <C-t> <Esc>:NERDTreeToggle<CR>
-" nnoremap <C-t> <Esc>:NERDTreeToggle<CR>
-" nnoremap tt :NERDTreeToggle<CR>
-" nnoremap <LEADER>f :NERDTreeFind<CR>
-" let g:NERDTreeDirArrowExpandable = '▸'
-" let g:NERDTreeDirArrowCollapsible = '▾'
-" let g:NERDTreeAutoDeleteBuffer = 1
-" let NERDTreeShowHidden=1
-" let NERDTreeIgnore = [
-"     \ '\.code', '\.idea', '\.DS_Store',
-"     \ '\.git$', '\.gitignore',
-"     \ '\.pyc$', '\.pyo$', '__pycache__',
-"     \ ]
-" 
-" " nerdcommenter
-" let g:NERDSpaceDelims = 1
-" let g:NERDDefaultAlign = 'left'
-" 
-" " nerdtree-git-plugin
-" let g:NERDTreeGitStatusIndicatorMapCustom = {
-"                 \ 'Modified'  :'✹',
-"                 \ 'Staged'    :'✚',
-"                 \ 'Untracked' :'✭',
-"                 \ 'Renamed'   :'➜',
-"                 \ 'Unmerged'  :'═',
-"                 \ 'Deleted'   :'✖',
-"                 \ 'Dirty'     :'✗',
-"                 \ 'Ignored'   :'☒',
-"                 \ 'Clean'     :'✔︎',
-"                 \ 'Unknown'   :'?',
-"                 \ }
-" let g:NERDTreeGitStatusUseNerdFonts = 1 " you should install nerdfonts by yourself. default: 0
-
-
+" =================================================
+" Git 插件设置
 " vim-gitgutter
 let g:gitgutter_map_keys = 0
 let g:gitgutter_max_signs = -1
+
 
 " vim-go
 let g:go_doc_keywordprg_enabled = 0
 let g:go_fmt_experimental = 1
 
+" =================================================
 " TagBar 插件对 Golang 配置
 
-nnoremap <leader>t :TagbarToggle<CR>
+" 展示 TagBar
+"nnoremap <leader>t :TagbarToggle<CR>
+cnoremap tag TagbarToggle<CR>
+
 let g:tagbar_ctags_bin = "/opt/homebrew/bin/ctags"
 let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',
@@ -451,6 +410,34 @@ let g:coc_global_extensions = [
   \ 'coc-python',
   \ ]
 
+" ======================================================
+" 异步 Lint 引擎配置
+
+" 禁用高亮
+let g:ale_set_highlights = 0
+" 启用快速修复列表
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+
+" 仅在保存文件时执行检查
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 0
+
+let g:ale_sign_error = ''
+let g:ale_sign_warning = ''
+let g:ale_completion_enabled = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_swift_swiftlint_use_defaults = 1
+let g:ale_open_list = 0
+let g:ale_lint_delay = 300
+let g:ale_linters = {
+      \ 'go': ['golint', 'go vet', 'go build'],
+      \ }
+
+
 set hidden
 set updatetime=100
 set shortmess+=c
@@ -487,30 +474,42 @@ endfunction
 "nmap <Leader>z <Plug>(coc-translator-p)
 "vmap <Leader>z <Plug>(coc-translator-pv)
 
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nmap <silent> def <Plug>(coc-definition)
+nmap <silent> det <Plug>(coc-type-definition)
+nmap <silent> red <Plug>(coc-implementation)
+nmap <silent> ref <Plug>(coc-references)
 
 nmap <c-]> <Plug>(coc-definition)
 
 "" coc 文件管理器
-nmap ;e :CocCommand explorer<CR>
-let g:node_client_debug = 1
+nmap ;; :CocCommand explorer<CR>
+let g:node_client_debug = 0
 
 " set filetypes as typescript.tsx
 "autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
 
-
+" ===============================================
 " FZF
-nnoremap <leader>ff <cmd>Files<cr>
-nnoremap <leader>fb <cmd>Buffers<cr>
-nnoremap <leader>fg <cmd>Ag<cr>
-
-" CHADtree
-"nnoremap <leader>v <cmd>CHADopen<cr>
+nnoremap <Leader>ff <cmd>Files<cr>
+nnoremap <Leader>fb <cmd>Buffers<cr>
+nnoremap <Leader>fg yaw<cmd>Ag<CR>
+"nnoremap <Leader>a  :Ag! <C-r>=expand('<cword>')<CR><CR>
 
 
+
+" ===============================================
+" Plug 'kevinhwang91/rnvimr' 集成 Ranger 文件管理器
+
+nnoremap <silent> <LEADER>F :RnvimrToggle<CR>
+
+" Map Rnvimr action
+let g:rnvimr_action = {
+            \ '<C-b>': 'NvimEdit tabedit',
+            \ '<C-t>': 'NvimEdit split',
+            \ '<C-x>': 'NvimEdit vsplit',
+            \ 'gw': 'JumpNvimCwd',
+            \ 'yw': 'EmitRangerCwd'
+            \ }
 
 
 
